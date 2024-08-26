@@ -1,0 +1,43 @@
+@use "base/mixins" as m;
+@use "base/variables" as v;
+
+.paquetes {
+
+    &__grid {
+        @include m.contenedor-md;
+        @include m.grid(1, 3rem);
+        @include m.tablet {
+            @include m.grid(2, 3rem);
+        }
+    }
+}
+
+.paquete {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    @include m.card;
+
+    &__lista {
+        @include m.reset-lista;
+        line-height: 2;
+        margin-left: 2rem;
+    }
+
+    &__precio {
+        font-size: 6rem;
+        color: v.$azul;
+        font-weight: v.$bold;
+        margin: 4rem 0 0 0;
+        text-align: center;
+
+        &--comprado {
+            color: v.$gris;
+        }
+    }
+
+    &__submit {
+        margin-top: 1rem;
+        @include m.boton(v.$azul, v.$blanco);
+    }
+}

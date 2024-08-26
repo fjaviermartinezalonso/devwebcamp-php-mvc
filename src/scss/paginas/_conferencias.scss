@@ -1,0 +1,111 @@
+@use "base/mixins" as m;
+@use "base/variables" as v;
+
+.agenda {
+    @include m.contenedor;
+    // padding: 5rem 0;
+    margin-top: 7rem;
+
+}
+
+.eventos {
+    $modificador: &;
+
+    &__heading {
+        color: v.$azul;
+        margin: 5rem 0;
+        text-align: left;
+        font-size: clamp(2rem, -0.8rem + 8vw, 6rem);
+    }
+
+    &__fecha {
+        color: v.$gris;
+        margin: 3rem 0 1rem 0;
+    }
+
+    &__listado {
+        @include m.reset-lista;
+
+        .swiper-button-prev,
+        .swiper-button-next {
+            color: rgba(v.$blanco, .8);
+        }
+    }
+
+    &--workshops {
+
+        // Con este truco se selecciona el .eventos__heading que esta bajo .eventos--workshop
+        #{$modificador}__heading {
+            color: v.$secundario;
+        }
+
+        .evento__informacion {
+            background-color: v.$secundario;
+            &:hover {
+                background-color: darken(v.$secundario, 10%);
+            }
+        }
+    }
+}
+
+.evento {
+
+    &__nombre {
+        // Para evitar que el tamaño de las tarjetas sea irregular con titulos grandes
+        font-size: 2rem;
+        margin: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 1; // Limitar contenido a solo 1 línea...
+        -webkit-box-orient: vertical; // en el eje vertical
+        overflow: hidden;
+    }
+    &__hora {
+        font-weight: bold;
+    }
+    &__informacion {
+        padding: 2rem;
+        border-radius: 1rem;
+        background-color: v.$azul;
+        color: v.$blanco;
+        transition: 300ms background-color ease;
+
+        &:hover {
+            background-color: darken(v.$azul, 10%);
+        }
+    }
+    &__descripcion {
+        font-size: 1.6rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 4; // Limitar contenido a solo 4 líneas...
+        -webkit-box-orient: vertical; // en el eje vertical
+        overflow: hidden;
+        @include m.tablet {
+            -webkit-line-clamp: 2; // Limitar contenido a solo 2 líneas...
+        }
+    }
+    &__autor-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+    }
+    &__autor-imagen {
+        width: 6rem;
+        background-color: v.$blanco;
+        border-radius: 50%;
+        border: 2px solid v.$blanco;
+    }
+    &__autor-nombre {
+        font-weight: bold;
+    }
+
+    &__agregar {
+        margin-top: 1rem;
+        @include m.boton(v.$blanco, v.$negro);
+
+        &:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+    }
+}

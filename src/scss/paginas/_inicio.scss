@@ -1,0 +1,266 @@
+@use "base/mixins" as m;
+@use "base/variables" as v;
+
+.resumen {
+    background-image: linear-gradient(to right, rgba(v.$azul, .5), rgba(v.$azul, .9)), image-set(
+        url(../img/bg_numeros.avif) 1x,
+        url(../img/bg_numeros.webp) 1x,
+        url(../img/bg_numeros.jpg) 1x,
+    );
+    padding: 12rem;
+    background-size: cover;
+    background-position: center;
+    margin-top: 6rem;
+
+    &__grid {
+        @include m.contenedor;
+        @include m.grid(1, 5rem);
+        @include m.tablet {
+            @include m.grid(2, 5rem);
+        }
+    }
+
+    &__bloque {
+        text-align: center;
+        color: v.$blanco;
+    }
+
+    &__texto {
+        font-weight: v.$black;
+        line-height: 1;
+        margin: 0;
+        font-size: 2.4rem;
+        text-transform: uppercase;
+
+        &--numero {
+            @extend .resumen__texto;
+            font-size: 8rem;
+        }
+    }
+}
+
+
+
+.speakers {
+
+    &__grid {
+        @include m.contenedor;
+        @include m.grid(1, 5rem);
+        @include m.tablet {
+            @include m.grid(2, 5rem);
+        }
+        @include m.xl_desktop {
+            @include m.grid(3, 5rem);
+        }
+    }
+}
+
+.speaker {
+    @include m.card;
+
+    @for $i from 1 through 4 {
+        &:nth-child(4n + #{$i}) {
+            background-image: image-set(
+                url(../img/bg_#{$i}.avif) 1x,
+                url(../img/bg_#{$i}.webp) 1x,
+                url(../img/bg_#{$i}.jpg) 1x,
+            );
+            background-position: center top;
+            background-repeat: no-repeat;
+            background-size: 350px;
+        }
+    }
+
+    &__imagen {
+        min-width: 350px; // para alinear siempre con el fondo
+        @include m.tablet {
+            min-width: none;
+        }
+    }
+
+    &__ubicacion {
+        color: v.$gris;
+        margin: 1rem;
+        font-size: 2rem;
+        line-height: 1.5;
+    }
+
+    &-sociales {
+        display: flex;
+        gap: 2rem;
+        margin-top: 2rem;
+        @include m.menu-social(v.$negro, 3rem);
+    }
+
+    &__listado-skills {
+        @include m.tags;
+        & {margin-top: 3rem; }
+    }
+}
+
+.mapa {
+    height: 45rem;
+    margin-top: 5rem;
+    
+    &__heading {
+        margin: 0;
+        text-align: center;
+    }
+
+    &__texto {
+        font-size: 1.8rem;
+        margin: 0;
+        text-align: center;
+    }
+}
+
+.tickets {
+
+    &__grid {
+        @include m.contenedor-sm;
+        @include m.grid(1, 5rem);
+        @include m.desktop {
+            @include m.contenedor;
+            @include m.grid(2, 5rem);
+        }
+    }
+}
+
+.ticket {
+    width: min(100% - 5rem, 60rem);
+    height: 30rem;
+    margin: 0 auto;
+    padding: 6rem;
+    border-radius: 2rem;
+    color: v.$blanco;
+    position: relative;
+
+    &::before,
+    &::after {
+        position: absolute;
+        height: 5rem;
+        width: 5rem;
+        content: "";
+        background-color: v.$blanco;
+        top: calc(50% - 2.5rem);
+    }
+
+    // Inicia el recorte con forma de círculo en el 20% y pone el origen en el centro del área
+    // El "at X" lo puedo ver como que desplaza el circulo un porcentaje en un eje y oculta el sobrante
+    &::before {
+        clip-path: circle(50% at 20% 50%);
+        left: 0;
+    }
+
+    &::after {
+        clip-path: circle(50% at 80% 50%);
+        right: 0;
+    }
+
+    &--virtual,
+    &--presencial {
+        background-color:hsla(178,100%,39%,1);
+        background-image:
+            radial-gradient(at 0% 99%, hsla(178,100%,39%,1) 0px, transparent 50%),
+            radial-gradient(at 54% 45%, hsla(209,100%,47%,1) 0px, transparent 50%),
+            radial-gradient(at 99% 1%, hsla(178,100%,39%,1) 0px, transparent 50%),
+            radial-gradient(at 91% 84%, hsla(209,100%,47%,1) 0px, transparent 50%),
+            radial-gradient(at 99% 1%, hsla(178,100%,39%,1) 0px, transparent 50%),
+            radial-gradient(at 48% 44%, hsla(209,100%,47%,1) 0px, transparent 50%),
+            radial-gradient(at 0% 0%, hsla(209,100%,47%,1) 0px, transparent 50%);
+    }
+
+    &__logo {
+        @include m.texto-fluido(2rem, 4rem);
+        @include m.logo;
+        & { margin-top: 0;}
+    }
+
+    &__plan {
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        margin: 3rem 0 0 0 ;
+    }
+
+    &__precio {
+        margin: 0;
+        font-weight: v.$black;
+        font-size: 5rem;
+        text-align: right;
+    }
+
+    &__enlace-contenedor {
+        margin-top: 5rem;
+        display: flex;
+        justify-content: center;
+    }
+    &__enlace {
+        @include m.boton(v.$azul, v.$blanco);
+        & { width: auto; }
+    }
+
+    // Tickets de acceso para el usuario registrado
+    $modificador: &;
+
+    &--acceso {
+        width: 30rem;
+        height: 50rem;
+        padding: 10rem 3rem;
+        @include m.tablet {
+            width: 60rem;
+            height: 30rem;
+            padding: 6rem 6rem;
+            display: flex;
+            align-items: center;
+        }
+
+        #{$modificador}__logo {
+            @include m.texto-fluido(2rem, 3rem);
+            text-align: left;
+        }
+        #{$modificador}__codigo {
+            font-size: 4rem;
+            font-weight: v.$bold;
+            text-align: center;
+            position: absolute;
+            bottom: 8rem;
+            left: 0;
+            margin: 0;
+            width: 100%;
+            @include m.tablet {
+                transform: rotate(-90deg);
+                width: 30rem;
+                transform-origin: 0 0;
+                left: calc(100% - 15rem);
+                bottom: 0;
+                top: 100%;
+            }
+        }
+        #{$modificador}__nombre {
+            font-size: 2.4rem;
+            font-weight: v.$black;
+            text-transform: uppercase;
+        }
+    }
+
+    &::before {
+        clip-path: circle(50% at 50% 25%);
+        top: 0;
+        left: calc(50% - 2.5rem);
+        @include m.tablet {
+            clip-path: circle(50% at 20% 50%);
+            left: 0;
+            top: calc(50% - 2.5rem);
+        }
+    }
+    &::after {
+        clip-path: circle(50% at 50% 75%);
+        top: calc(100% - 5rem);
+        left: calc(50% - 2.5rem);
+        @include m.tablet {
+            clip-path: circle(50% at 80% 50%);
+            left: calc(100% - 5rem);
+            top: calc(50% - 2.5rem);
+        }
+    }
+}
